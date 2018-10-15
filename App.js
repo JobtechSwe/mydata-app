@@ -44,8 +44,7 @@ PushNotification.configure({
     * - if not, you must call PushNotificationsHandler.requestPermissions() later
     */
   requestPermissions: true,
-})import { hasAccountOnDevice } from './services/storage';
-
+})
 
 const hasAccount = hasAccountOnDevice()
 
