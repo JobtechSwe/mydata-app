@@ -43,9 +43,11 @@ PushNotification.configure({
     * - if not, you must call PushNotificationsHandler.requestPermissions() later
     */
   requestPermissions: true,
-});
+})
 
-const stackConfig = {}
+const stackConfig = {
+  initialRouteName: 'Account'
+}
 
 const App = createStackNavigator({
   Home: { screen: HomeScreen },
