@@ -1,10 +1,6 @@
-/**
- * @format
- * @flow
- */
 import { PushNotificationIOS } from 'react-native'
-import PushNotification from 'react-native-push-notification';
-import { createStackNavigator, StackNavigatorConfig, NavigationTransitionProps } from 'react-navigation';
+import PushNotification from 'react-native-push-notification'
+import { createStackNavigator } from 'react-navigation'
 import HomeScreen from './screens/HomeScreen'
 import ProfileScreen from './screens/ProfileScreen'
 
@@ -47,7 +43,7 @@ PushNotification.configure({
   requestPermissions: true,
 });
 
-const stackConfig: StackNavigatorConfig = {}
+const stackConfig = {}
 
 const App = createStackNavigator({
   Home: { screen: HomeScreen },
