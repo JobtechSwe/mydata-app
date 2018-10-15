@@ -36,20 +36,5 @@
     "jest": "23.6.0",
     "metro-react-native-babel-preset": "^0.47.0",
     "react-test-renderer": "16.5.0"
-  },
-  "jest": {
-    "preset": "react-native",
-    "moduleFileExtensions": [
-      "js"
-    ],
-    "transform": {
-      "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js"
-    },
-    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.js$",
-    "testPathIgnorePatterns": [
-      "\\.snap$",
-      "<rootDir>/node_modules/"
-    ],
-    "cacheDirectory": ".jest/cache"
   }
 }
