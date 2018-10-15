@@ -1,14 +1,14 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native'
 import Screen from './Screen'
 
-export default class ProfileScreen extends Screen {
+export default class AccountScreen extends Screen {
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>Profile</Text>
       </View>
-    );
+    )
   }
 }
 

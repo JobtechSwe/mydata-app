@@ -1,6 +1,7 @@
 import React from 'react'
-import { Button, Platform, StyleSheet, Text, View } from 'react-native';
+import { Button, Platform, StyleSheet, Text, View } from 'react-native'
 import Screen from './Screen'
+import styled from 'styled-components'
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -9,38 +10,37 @@ const instructions = Platform.select({
     'Shake or press menu button for dev menu',
 });
 
+const WelcomeText = styled(Text)`
+  font-size: 20px;
+  text-align: center;
+  margin: 10px;
+`
+
+const InstructionText = styled(Text)`
+  text-align: center;
+  color: #333;
+  margin-bottom: 6px;
+`
+
+const StyledView = styled(View)`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  background-color: #F5FCFF;
+`
+
 export default class HomeScreen extends Screen {
   render() {
     const { navigate } = this.props.navigation;
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Home</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
+      <StyledView>
+        <WelcomeText>Home</WelcomeText>
+        <InstructionText>{instructions}</InstructionText>
         <Button
-          title="Goto profile"
-          onPress={() => navigate('Profile')}
+          title="Goto Account"
+          onPress={() => navigate('Account')}
         />
-      </View>
+      </StyledView>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 6,
-  },
-});

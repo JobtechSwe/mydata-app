@@ -2,7 +2,7 @@ import { PushNotificationIOS } from 'react-native'
 import PushNotification from 'react-native-push-notification'
 import { createStackNavigator } from 'react-navigation'
 import HomeScreen from './screens/HomeScreen'
-import ProfileScreen from './screens/ProfileScreen'
+import AccountScreen from './screens/AccountScreen'
 
 PushNotification.configure({
 
@@ -47,7 +47,7 @@ const stackConfig = {}
 
 const App = createStackNavigator({
   Home: { screen: HomeScreen },
-  Profile: { screen: ProfileScreen }
+  Account: { screen: AccountScreen }
 }, stackConfig)
 
 export default App;
