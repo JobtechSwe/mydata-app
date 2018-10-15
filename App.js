@@ -3,6 +3,8 @@ import PushNotification from 'react-native-push-notification'
 import { createStackNavigator } from 'react-navigation'
 import HomeScreen from './screens/HomeScreen'
 import AccountScreen from './screens/AccountScreen'
+import React from 'react'
+import { Provider as PaperProvider } from 'react-native-paper'
 
 PushNotification.configure({
 
@@ -50,4 +52,8 @@ const App = createStackNavigator({
   Account: { screen: AccountScreen }
 }, stackConfig)
 
-export default App;
+export default () => (
+  <PaperProvider>
+    <App/>
+  </PaperProvider>
+)
