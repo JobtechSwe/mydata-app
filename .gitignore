@@ -57,3 +57,7 @@ buck-out/
 
 # Test
 .jest/
+
+# Environment file
+# https://github.com/luggit/react-native-config
+.env

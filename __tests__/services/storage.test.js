@@ -2,7 +2,7 @@ import * as storage from '../../services/storage'
 import { AsyncStorage } from 'react-native'
 
 describe('storage', () => {
-  describe("#hasAccountOnDevice", () => {
+  describe('#hasAccountOnDevice', () => {
     it('calls AsyncStorage.getItem', async () => {
       await storage.hasAccountOnDevice()
       expect(AsyncStorage.getItem).toHaveBeenCalled()
@@ -18,6 +18,16 @@ describe('storage', () => {
       AsyncStorage.getItem.mockRejectedValue('could not find any account-id')
       const result = await storage.hasAccountOnDevice()
       expect(result).toEqual(false)
+    })
+  })
+
+  describe('#storeAccountId', () => {
+    it('calls AsyncStorage.setItem', async () => {
+      await storage.storeAccountId('foo')
+
+      expect(AsyncStorage.setItem).toHaveBeenCalledWith({
+        accountId: 'foo'
+      })
     })
   })
 })

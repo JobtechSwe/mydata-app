@@ -13,3 +13,9 @@ export async function hasAccountOnDevice () {
     return false
   }
 }
+
+export async function storeAccountId (id) {
+  await AsyncStorage.setItem({
+    accountId: id
+  })
+}
