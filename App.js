@@ -5,7 +5,6 @@ import HomeScreen from './screens/HomeScreen'
 import AccountScreen from './screens/AccountScreen'
 import React from 'react'
 import { Provider as PaperProvider } from 'react-native-paper'
-import { hasAccountOnDevice } from './services/storage'
 
 PushNotification.configure({
 
@@ -46,10 +45,8 @@ PushNotification.configure({
   requestPermissions: true,
 })
 
-const hasAccount = hasAccountOnDevice()
-
 const stackConfig = {
-  initialRouteName: hasAccount ? 'Home' : 'Account'
+  initialRouteName: 'Home'
 }
 
 const App = createStackNavigator({

@@ -27,7 +27,9 @@ export default class AccountScreen extends Screen {
         <Button
           title="Goto Account"
           onPress={() => navigate('Account')}
-        />
+          >
+          Connect
+        </Button>
       </StyledView>
     )
   }

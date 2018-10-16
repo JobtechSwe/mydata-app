@@ -2,6 +2,7 @@ import React from 'react'
 import { Button, Platform, StyleSheet, Text, View } from 'react-native'
 import Screen from './Screen'
 import styled from 'styled-components'
+import { hasAccountOnDevice } from '../services/storage'
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -30,6 +31,11 @@ const StyledView = styled(View)`
 `
 
 export default class HomeScreen extends Screen {
+  async componentWillMount() {
+    const hasAccount = await hasAccountOnDevice()
+    const { navigate } = this.props.navigation;
+    if (!hasAccount) navigate('Account')
+  }
   render() {
     const { navigate } = this.props.navigation;
     return (
