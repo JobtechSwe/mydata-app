@@ -8,9 +8,17 @@ An example app for managing consents and viewing data
 * Install Watchman `brew install watchman`
 * Install React Native cli `npm install -g react-native-cli`
 
-### Linux
+### Linux and Android
 * Install Android Studio https://developer.android.com/studio/install
-* Install Watchman https://facebook.github.io/watchman/docs/install.html#installing-from-source
+  * In the project directory create the file `android/local.properties` with the content `sdk.dir = /home/USERNAME/Android/Sdk`
+  * Approve the licenses of the SDK packages by running ` /home/USERNAME/Android/Sdk/tools/bin/sdkmanager --licenses`
+  * If you get `Could not find tools.jar` then you need to point gradle to the JDK installation.
+    * You can find it with `2>/dev/null find / -name tools.jar -path "*jdk*"`
+    * If you don't have JDK installed then install it
+    * In project directory, edit android/gradle.properties and add `org.gradle.java.home = /PATH/TO/JDK`
+  * Set up the device which will run the app (API Level 26, Android 8.0) https://facebook.github.io/react-native/docs/getting-started.html#preparing-the-android-device
+  * Start the device that will run the app from Android Studio (instructions on the facebook-site linked above)
+* (Optionally, if you want it to automatically reload on code change) Install Watchman https://facebook.github.io/watchman/docs/install.html#installing-from-source
 * Install React Native cli `npm install -g react-native-cli`
 
 ## Run
@@ -18,3 +26,4 @@ An example app for managing consents and viewing data
 react-native run-ios
 react-native run-android
 ```
+If the app doesn't open automatically go into apps and find MyData
