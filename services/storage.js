@@ -1,21 +1,15 @@
 import { AsyncStorage } from 'react-native'
 
-export async function hasAccountOnDevice () {
+export async function getAccount () {
   try {
-    const result = await AsyncStorage.getItem('account-id')
-    if (!result) {
-      return false
-    } else {
-      return true
-    }
+    const result = await AsyncStorage.getItem('accountId')
+    return result
   } catch (error) {
     console.error('Error while getting account-id from AsyncStorage:', error)
-    return false
+    return undefined
   }
 }
 
 export async function storeAccountId (id) {
-  await AsyncStorage.setItem({
-    accountId: id
-  })
+  await AsyncStorage.setItem('accountId', id)
 }

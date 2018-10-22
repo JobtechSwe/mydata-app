@@ -21,6 +21,10 @@ An example app for managing consents and viewing data
 * (Optionally, if you want it to automatically reload on code change) Install Watchman https://facebook.github.io/watchman/docs/install.html#installing-from-source
 * Install React Native cli `npm install -g react-native-cli`
 
+## Config
+* Create a `.env` in project root with `OPERATOR_URL=http://localhost:3000`
+* Run `react-native link react-native-config`
+
 ## Run
 ```bash
 react-native run-ios

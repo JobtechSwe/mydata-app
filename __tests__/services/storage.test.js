@@ -2,22 +2,22 @@ import * as storage from '../../services/storage'
 import { AsyncStorage } from 'react-native'
 
 describe('storage', () => {
-  describe('#hasAccountOnDevice', () => {
+  describe('#getAccount', () => {
     it('calls AsyncStorage.getItem', async () => {
-      await storage.hasAccountOnDevice()
-      expect(AsyncStorage.getItem).toHaveBeenCalled()
+      await storage.getAccount()
+      expect(AsyncStorage.getItem).toHaveBeenCalledWith('accountId')
     })
 
     it('resolves if AsyncStorage resolves', async () => {
-      AsyncStorage.getItem.mockResolvedValue('this worked!')
-      const result = await storage.hasAccountOnDevice()
-      expect(result).toEqual(true)
+      AsyncStorage.getItem.mockResolvedValue('myId')
+      const result = await storage.getAccount()
+      expect(result).toEqual('myId')
     })
 
-    it('rejects if AsyncStorage rejects', async () => {
+    it('resolves with undefined if AsyncStorage rejects', async () => {
       AsyncStorage.getItem.mockRejectedValue('could not find any account-id')
-      const result = await storage.hasAccountOnDevice()
-      expect(result).toEqual(false)
+      const result = await storage.getAccount()
+      expect(result).toEqual(undefined)
     })
   })
 
@@ -25,9 +25,7 @@ describe('storage', () => {
     it('calls AsyncStorage.setItem', async () => {
       await storage.storeAccountId('foo')
 
-      expect(AsyncStorage.setItem).toHaveBeenCalledWith({
-        accountId: 'foo'
-      })
+      expect(AsyncStorage.setItem).toHaveBeenCalledWith('accountId', 'foo')
     })
   })
 })

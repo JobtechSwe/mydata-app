@@ -1,15 +1,8 @@
 import React from 'react'
-import { Button, Platform, StyleSheet, Text, View } from 'react-native'
+import { Button, Platform, Text, View } from 'react-native'
 import Screen from './Screen'
 import styled from 'styled-components'
-import { hasAccountOnDevice } from '../services/storage'
-
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+import { getAccount } from '../services/storage'
 
 const WelcomeText = styled(Text)`
   font-size: 20px;
@@ -31,17 +24,30 @@ const StyledView = styled(View)`
 `
 
 export default class HomeScreen extends Screen {
-  async componentWillMount() {
-    const hasAccount = await hasAccountOnDevice()
-    const { navigate } = this.props.navigation;
-    if (!hasAccount) navigate('Account')
+  state = {
+    accountId: undefined
   }
+
+  async componentWillMount() {
+    await this.readAccountFromStorage()
+
+    const { navigate } = this.props.navigation
+    if (!this.state.accountId) navigate('Account', { onAccountStored: this.readAccountFromStorage })
+  }
+
+  readAccountFromStorage = async () => {
+    const accountId = await getAccount()
+    this.setState({
+      accountId
+    })
+  }
+
   render() {
     const { navigate } = this.props.navigation;
     return (
       <StyledView>
-        <WelcomeText>Home</WelcomeText>
-        <InstructionText>{instructions}</InstructionText>
+        <WelcomeText>Hello {this.state.accountId}</WelcomeText>
+        <InstructionText>Waiting for consents</InstructionText>
         <Button
           title="Goto Account"
           onPress={() => navigate('Account')}
