@@ -31,3 +31,5 @@ react-native run-ios
 react-native run-android
 ```
 If the app doesn't open automatically go into apps and find MyData
+
+React debug menu available on ios with ⌘d and on android with ⌘m / ctrl+m
