@@ -24,9 +24,7 @@ describe('account', () => {
 
       await account.connect(id)
 
-      expect(axios.post).toHaveBeenCalledWith('aTotallyLegitOperatorUrl/accounts', {
-        accountId: id
-      })
+      expect(axios.post).toHaveBeenCalledWith('aTotallyLegitOperatorUrl/accounts', { id })
     })
 
     it('calls storage.storeAccountId if axios.post resolves', async () => {

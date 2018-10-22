@@ -4,7 +4,7 @@ import * as storage from './storage'
 
 export async function connect (id) {
   await axios.post(`${Config.OPERATOR_URL}/accounts`, {
-    accountId: id
+    id
   })
 
   await storage.storeAccountId(id)
