@@ -22,7 +22,7 @@ An example app for managing consents and viewing data
 * Install React Native cli `npm install -g react-native-cli`
 
 ## Config
-* Create a `.env` in project root with `OPERATOR_URL=http://localhost:3000`
+* Create a `.env` in project root with `OPERATOR_URL=http://localhost:3000` (or whatever adress you are running the operator on. caveat: localhost might not work for you, try using the ip then)
 * Run `react-native link react-native-config`
 
 ## Run
