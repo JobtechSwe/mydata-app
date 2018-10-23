@@ -6,12 +6,14 @@ export function subscribe (id, callback) {
   setInterval(async () => {
     try {
       const { data } = await axios.get(url)
-      const consent = data[0].data
-      if (consent.status === 'pending') {
-        callback(consent)
+      if (data.length > 0) {
+        const consent = data[0].data
+        if (consent.status === 'pending') {
+          callback(consent)
+        }
       }
     } catch (error) {
-      console.error(error)
+      throw error
     }
   }, 5000)
 }

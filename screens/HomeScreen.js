@@ -62,7 +62,16 @@ export default class HomeScreen extends Screen {
   }
 
   approveConsent = async () => {
-    await approve(this.state.pendingConsent)
+    try {
+      await approve(this.state.pendingConsent)
+      subscribe(this.state.accountId, this.onConsentRequest)
+      this.setState({
+        instructionText: 'Waiting for consents...',
+        pendingConsent: {}
+      })
+    } catch (error) {
+        throw error
+    }
   }
 
   render() {
