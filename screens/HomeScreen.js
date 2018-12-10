@@ -1,9 +1,8 @@
 import React from 'react'
-import { Button, Platform, Text, View } from 'react-native'
+import { Alert, Button, Text, View } from 'react-native'
 import Screen from './Screen'
 import styled from 'styled-components'
-import { getAccount } from '../services/storage'
-import { subscribe, approve } from '../services/consents'
+import { getAccount, storeAccount } from '../services/storage'
 
 const WelcomeText = styled(Text)`
   font-size: 20px;
@@ -32,59 +31,50 @@ const StyledView = styled(View)`
 
 export default class HomeScreen extends Screen {
   state = {
-    accountId: undefined,
-    instructionText: 'Waiting for consents...',
-    pendingConsent: {}
+    account: undefined
   }
 
-  async componentWillMount() {
+  async componentWillFocus() {
     await this.readAccountFromStorage()
 
+    if (!this.state.account) {
+      const { navigate } = this.props.navigation
+      navigate('Register', { onAccountStored: this.readAccountFromStorage })
+    }
+  }
+
+  editAccount = () => {
+    this.props.navigation.navigate('Account')
+  }
+  
+  clearAccount = async () => {
+    Alert.alert('Clear account', 'Are you sure you want to clear your account? This is a REALLY bad idea!', [
+      { text: 'Cancel', onPress: () => {}, style: 'cancel' },
+      { text: 'OK', onPress: () => this.doClearAccount() }
+    ])
+  }
+
+  doClearAccount = async () => {
+    await storeAccount()
+    this.setState({ account: undefined })
     const { navigate } = this.props.navigation
-    if (!this.state.accountId) navigate('Account', { onAccountStored: this.readAccountFromStorage })
+    navigate('Register', { onAccountStored: this.readAccountFromStorage })
   }
 
   readAccountFromStorage = async () => {
-    const accountId = await getAccount()
+    const account = await getAccount()
     this.setState({
-      accountId
+      account
     })
-    if (accountId) {
-      subscribe(accountId, this.onConsentRequest)
-    }
-  }
-
-  onConsentRequest = async (consent) => {
-    this.setState({
-      instructionText: 'A new consent is waiting for your approval',
-      pendingConsent: consent
-    })
-  }
-
-  approveConsent = async () => {
-    try {
-      await approve(this.state.pendingConsent)
-      subscribe(this.state.accountId, this.onConsentRequest)
-      this.setState({
-        instructionText: 'Waiting for consents...',
-        pendingConsent: {}
-      })
-    } catch (error) {
-        throw error
-    }
   }
 
   render() {
     const { navigate } = this.props.navigation;
     return (
       <StyledView>
-        <WelcomeText>Hello {this.state.accountId}</WelcomeText>
-        <InstructionText>{this.state.instructionText}</InstructionText>
-        {this.state.pendingConsent.id && <ConsentText>Client {this.state.pendingConsent.client_id} says: {this.state.pendingConsent.description}</ConsentText>}
-        {this.state.pendingConsent.id && <Button
-          title="Approve consent"
-          onPress={this.approveConsent}
-        />}
+        <WelcomeText>Hello {this.state.account?.firstName} {this.state.account?.lastName}!</WelcomeText>
+        <Button title="Edit Account" onPress={this.editAccount}>Edit account</Button>
+        <Button title="Clear Account" onPress={this.clearAccount}>Clear account</Button>
       </StyledView>
     );
   }

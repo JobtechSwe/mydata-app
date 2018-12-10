@@ -3,7 +3,8 @@ import { Text, View } from 'react-native'
 import { TextInput, Button } from 'react-native-paper'
 import Screen from './Screen'
 import styled from 'styled-components'
-import { getAccount, storeAccount } from '../services/storage'
+import {storeAccount} from '../services/storage'
+import { RSA } from 'react-native-rsa-native'
 
 const InstructionText = styled(Text)`
 text-align: center;
@@ -17,24 +18,30 @@ justify-content: center;
 background-color: #F5FCFF;
 `
 
-export default class AccountScreen extends Screen {
-  state = {}
-
-  async componentWillFocus () {
-    console.log('getAccount()')
-    const account = await getAccount()
-    this.setState(account)
+export default class RegisterScreen extends Screen {
+  state = {
+    firstName: '',
+    lastName: '',
+    busy: false
   }
 
-  updateAccount = async () => {
-    storeAccount(this.state)
-    this.props.navigation.navigate('Home')
+  handlePress = async () => {
+    this.setState({busy: true})
+    const ownerKeys = await RSA.generateKeys(4096)
+    this.setState({ busy: false })
+
+    this.setState({ keys: { owner: { publicKey: ownerKeys.public, privateKey: ownerKeys.private}}})
+    const {firstName, lastName, keys} = this.state
+    await storeAccount({ firstName, lastName, keys })
+    this.props.navigation.state.params.onAccountStored()
+    this.props.navigation.goBack(null)
   }
 
-  render () {
+  render() {
     return (
       <StyledView>
         <InstructionText>Who are you?</InstructionText>
+        
         <TextInput
           label="First name"
           onChangeText={(text) => this.setState({ firstName: text })}
@@ -46,10 +53,10 @@ export default class AccountScreen extends Screen {
           value={this.state.lastName}
         />
         <Button
-          title="Update"
-          onPress={this.updateAccount}
-          >
-          Update
+          title="Create"
+          onPress={this.handlePress}
+        >
+          Create
         </Button>
       </StyledView>
     )

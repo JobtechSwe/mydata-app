@@ -138,6 +138,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-rsa-native')
     compile project(':react-native-config')
     compile project(':react-native-vector-icons')
     compile project(':react-native-push-notification')
