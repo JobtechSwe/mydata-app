@@ -21,7 +21,6 @@ export default class AccountScreen extends Screen {
   state = {}
 
   async componentWillFocus () {
-    console.log('getAccount()')
     const account = await getAccount()
     this.setState(account)
   }
