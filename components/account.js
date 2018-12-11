@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { View } from 'react-native'
-import { TextInput, Button, Text } from 'react-native-paper'
+import { TextInput, Button } from 'react-native-paper'
 
-export class Account extends Component {
+export default class Account extends Component {
 
-  state = {
-    firstName: '',
-    lastName: ''
+  constructor(props) {
+    super(props)
+    this.state = props.account || {}
   }
 
   render () {
@@ -29,14 +29,6 @@ export class Account extends Component {
           {this.props.button}
         </Button>
       </View>
-    )
-  }
-}
-
-export class GeneratingKeys extends Component {
-  render() {
-    return (
-      <Text label="Generating keys">Generating keys</Text>
     )
   }
 }

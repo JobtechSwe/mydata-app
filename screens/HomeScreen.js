@@ -1,5 +1,5 @@
 import React from 'react'
-import { Alert, Button, Text, View } from 'react-native'
+import { Alert, Button, Text, View, Linking, Platform } from 'react-native'
 import Screen from './Screen'
 import styled from 'styled-components'
 import { getAccount, storeAccount } from '../services/storage'
@@ -31,7 +31,29 @@ const StyledView = styled(View)`
 
 export default class HomeScreen extends Screen {
   state = {
-    account: undefined
+    account: {}
+  }
+
+  componentDidMount() {
+    if (Platform.OS === 'android') {
+      Linking.getInitialURL().then(url => this.navigate(url))
+    } else {
+      Linking.addEventListener('url', this.handleOpenURL);
+    }
+  }
+  componentWillUnmount() {
+    Linking.removeEventListener('url', this.handleOpenURL)
+  }
+
+  handleOpenURL = (event) => {
+    this.navigate(event.url);
+  }
+
+  navigate = (url) => {
+    const { navigate } = this.props.navigation;
+    if (/mydata:\/\/callback/.test(url)) {
+      navigate('Account')
+    }
   }
 
   async componentWillFocus() {
@@ -39,7 +61,7 @@ export default class HomeScreen extends Screen {
 
     if (!this.state.account) {
       const { navigate } = this.props.navigation
-      navigate('Register', { onAccountStored: this.readAccountFromStorage })
+      navigate('Account')
     }
   }
 
@@ -58,7 +80,7 @@ export default class HomeScreen extends Screen {
     await storeAccount()
     this.setState({ account: undefined })
     const { navigate } = this.props.navigation
-    navigate('Register', { onAccountStored: this.readAccountFromStorage })
+    navigate('Account')
   }
 
   readAccountFromStorage = async () => {

@@ -10,6 +10,7 @@
 
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
+#import <RCTLinkingManager.h>
 
 @implementation AppDelegate
 
@@ -59,5 +60,10 @@
  {
   [RCTPushNotificationManager didReceiveLocalNotification:notification];
  }
+
+// Callback from Dropbox
+ - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+  return [RCTLinkingManager application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+}
 
 @end
