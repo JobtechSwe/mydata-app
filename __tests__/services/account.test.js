@@ -1,39 +1,121 @@
-import * as account from '../../services/account'
-import * as storage from '../../services/storage'
+import * as accountService from '../../services/account'
 import axios from 'axios'
 import Config from 'react-native-config'
 
 Config.OPERATOR_URL = 'aTotallyLegitOperatorUrl'
 
 describe('account', () => {
+  let account
   beforeEach(() => {
-    storage.storeAccountId = jest.fn()
+    account = {
+      id: 'abc123',
+      firstName: 'Foo',
+      lastName: 'Bar',
+      pds: {
+        access_token: 'abc'
+      },
+      keys: {
+        publicKey: 'public',
+        privateKey: 'private'
+      }
+    }
   })
 
-  describe('#connect', () => {
+  describe('#register', () => {
+    beforeEach(() => {
+      account.id = undefined
+      axios.post.mockResolvedValue({ data: { id: 'abc123' } })
+    })
     it('calls axios.post', async () => {
-      const id = 'abc123'
-
-      await account.connect(id)
+      await accountService.register(account)
 
       expect(axios.post).toHaveBeenCalled()
     })
+    it('calls axios.post to correct url and with parts of account as payload', async () => {
+      await accountService.register(account)
 
-    it('calls axios.post to correct url and with accountId as payload', async () => {
-      const id = 'abc123'
-
-      await account.connect(id)
-
-      expect(axios.post).toHaveBeenCalledWith('aTotallyLegitOperatorUrl/accounts', { id })
+      const expected = {
+        firstName: account.firstName,
+        lastName: account.lastName,
+        publicKey: account.keys.publicKey,
+        pds: account.pds
+      }
+      expect(axios.post).toHaveBeenCalledWith('aTotallyLegitOperatorUrl/accounts', expected)
     })
+    it('returns id axios.post resolves', async () => {
+      const id = await accountService.register(account)
 
-    it('calls storage.storeAccountId if axios.post resolves', async () => {
-      axios.post.mockResolvedValue('payload')
-      const id = 'abc123'
+      expect(id).toEqual('abc123')
+    })
+  })
 
-      await account.connect(id)
+  describe('#update', () => {
+    beforeEach(() => {
+      axios.put.mockResolvedValue({})
+    })
+    it('calls axios.put', async () => {
+      await accountService.update(account)
 
-      expect(storage.storeAccountId).toHaveBeenCalled()
+      expect(axios.put).toHaveBeenCalled()
+    })
+    it('calls axios.put to correct url and with parts of account as payload', async () => {
+      await accountService.update(account)
+
+      const expected = {
+        id: account.id,
+        firstName: account.firstName,
+        lastName: account.lastName,
+        publicKey: account.keys.publicKey,
+        pds: account.pds
+      }
+      expect(axios.put).toHaveBeenCalledWith('aTotallyLegitOperatorUrl/accounts/abc123', expected)
+    })
+  })
+
+  describe('#save', () => {
+    beforeEach(() => {
+      axios.post.mockResolvedValue({ data: { id: 'abc123' } })
+      axios.put.mockResolvedValue({})
+    })
+    describe('existing user', () => {
+      it('calls axios.put to correct url and with parts of account as payload', async () => {
+        await accountService.save(account)
+
+        const expected = {
+          id: account.id,
+          firstName: account.firstName,
+          lastName: account.lastName,
+          publicKey: account.keys.publicKey,
+          pds: account.pds
+        }
+        expect(axios.put).toHaveBeenCalledWith('aTotallyLegitOperatorUrl/accounts/abc123', expected)
+      })
+      it('returns account', async () => {
+        const result = await accountService.save(account)
+
+        expect(result).toEqual(account)
+      })
+    })
+    describe('new user', () => {
+      beforeEach(() => {
+        account.id = undefined
+      })
+      it('calls axios.post to correct url and with parts of account as payload', async () => {
+        await accountService.save(account)
+
+        const expected = {
+          firstName: account.firstName,
+          lastName: account.lastName,
+          publicKey: account.keys.publicKey,
+          pds: account.pds
+        }
+        expect(axios.post).toHaveBeenCalledWith('aTotallyLegitOperatorUrl/accounts', expected)
+      })
+      it('returns account', async () => {
+        const result = await accountService.save(account)
+
+        expect(result).toEqual(account)
+      })
     })
   })
 })

@@ -6,6 +6,7 @@ import { getAccount, storeAccount } from '../services/storage'
 import Account from '../components/account'
 import KeyPair from '../components/keypair'
 import PDS from '../components/pds'
+import { save } from '../services/account';
 
 const InstructionText = styled(Text)`
 text-align: center;
@@ -41,8 +42,10 @@ export default class AccountScreen extends Screen {
   }
 
   saveAccount = async (account) => {
-    const { firstName, lastName, keys, pds } = account
-    await storeAccount({ firstName, lastName, keys, pds })
+    await storeAccount(account)
+    if (account.keys && account.pds) {
+      account = await save(account)
+    }
     this.setState({account})
 
     switch(this.state.action) {
@@ -50,7 +53,7 @@ export default class AccountScreen extends Screen {
         this.setState({ action: 'create2' })
         break
       case 'create2':
-        if (this.state.account.pds && this.state.account.keys) {
+        if (account.pds && account.keys) {
           this.props.navigation.navigate('Home')
         }
         break
