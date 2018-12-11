@@ -1,5 +1,6 @@
 import React from 'react'
-import { Alert, Button, Text, View, Linking, Platform } from 'react-native'
+import { Alert, Button, Text, View, Linking, Platform, ScrollView } from 'react-native'
+import JSONTree from 'react-native-json-tree'
 import Screen from './Screen'
 import styled from 'styled-components'
 import { getAccount, storeAccount } from '../services/storage'
@@ -97,6 +98,9 @@ export default class HomeScreen extends Screen {
         <WelcomeText>Hello {this.state.account?.firstName} {this.state.account?.lastName}!</WelcomeText>
         <Button title="Edit Account" onPress={this.editAccount}>Edit account</Button>
         <Button title="Clear Account" onPress={this.clearAccount}>Clear account</Button>
+        <ScrollView>
+          <JSONTree data={this.state.account} />
+        </ScrollView>
       </StyledView>
     );
   }

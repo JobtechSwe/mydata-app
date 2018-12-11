@@ -32,12 +32,8 @@ class DropboxConnector extends EventEmitter {
 
     const [, queryString] = event.url.match(/\#(.*)/)
     const dropbox = processQueryString(queryString)
-    const account = await getAccount()
-    account.pds = account.pds || {}
-    account.pds.dropbox = dropbox
-    await storeAccount(account)
 
-    this.emit('connect', account)
+    this.emit('connect', dropbox)
   }
 }
 

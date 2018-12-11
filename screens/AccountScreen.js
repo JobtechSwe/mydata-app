@@ -3,9 +3,8 @@ import { Text, View } from 'react-native'
 import Screen from './Screen'
 import styled from 'styled-components'
 import { getAccount, storeAccount } from '../services/storage'
-import { RSA } from 'react-native-rsa-native'
 import Account from '../components/account'
-import GeneratingKeys from '../components/generatingkeys'
+import KeyPair from '../components/keypair'
 import PDS from '../components/pds'
 
 const InstructionText = styled(Text)`
@@ -42,33 +41,31 @@ export default class AccountScreen extends Screen {
   }
 
   saveAccount = async (account) => {
-    if (!account.keys) {
-      this.setState({ action: 'generating-keys' })
-      const ownerKeys = await RSA.generateKeys(4096)
-      account.keys = {
-        owner: {
-          publicKey: ownerKeys.public,
-          privateKey: ownerKeys.private
-        }
-      }
-      this.setState({ account, action: 'pds' })
-    } else {
-      this.setState({ account })
-    }
-
-    const { firstName, lastName, keys, pds } = this.state.account
+    const { firstName, lastName, keys, pds } = account
     await storeAccount({ firstName, lastName, keys, pds })
+    this.setState({account})
 
-    // this.props.navigation.goBack(null)
+    switch(this.state.action) {
+      case 'create':
+        this.setState({ action: 'create2' })
+        break
+      case 'create2':
+        if (this.state.account.pds && this.state.account.keys) {
+          this.props.navigation.navigate('Home')
+        }
+        break
+      default:
+        this.setState({ action: 'update' })
+        break
+    }
   }
 
-  onDropboxConnect = (account) => {
-    console.log('onDropboxConnect', account)
-    if(this.action === 'pds') {
-      this.props.navigation.navigate('Home')
-    } else {
-      this.setState({ account, action: 'update' })
-    }
+  onGenerateKeys = (keys) => {
+    this.saveAccount({ ...this.state.account, keys})
+  }
+
+  onDropboxConnect = (pds) => {
+    this.saveAccount({ ...this.state.account, pds })
   }
 
   currentComponent = () => {
@@ -83,6 +80,13 @@ export default class AccountScreen extends Screen {
             onSubmit={(account) => this.saveAccount(account)}
           />
         )
+      case 'create2':
+        return (
+          <View>
+            <KeyPair onGenerate={this.onGenerateKeys} />
+            <PDS pds={this.state.account.pds} onConnect={this.onDropboxConnect} />
+          </View>
+        )
       case 'update':
         return (
           <View>
@@ -93,13 +97,10 @@ export default class AccountScreen extends Screen {
               button={this.text.update}
               onSubmit={(account) => this.saveAccount(account)}
             />
-            <PDS account={this.state.account} onConnect={this.onDropboxConnect} />
+            <KeyPair keys={this.state.account.keys} />
+            <PDS pds={this.state.account.pds} onConnect={this.onDropboxConnect} />
           </View>
         )
-      case 'generating-keys':
-        return (<GeneratingKeys />)
-      case 'pds':
-        return (<PDS account={this.state.account} onConnect={this.onDropboxConnect} />)
     }
   }
 
