@@ -35,10 +35,16 @@ describe('account', () => {
       await accountService.register(account)
 
       const expected = {
-        firstName: account.firstName,
-        lastName: account.lastName,
-        publicKey: account.keys.publicKey,
-        pds: account.pds
+        data: {
+          firstName: account.firstName,
+          lastName: account.lastName,
+          publicKey: account.keys.publicKey,
+          pds: {
+            provider: 'dropbox',
+            access_token: account.pds.access_token
+          }
+        },
+        signature: expect.any(String)
       }
       expect(axios.post).toHaveBeenCalledWith('aTotallyLegitOperatorUrl/accounts', expected)
     })
@@ -62,11 +68,16 @@ describe('account', () => {
       await accountService.update(account)
 
       const expected = {
-        id: account.id,
-        firstName: account.firstName,
-        lastName: account.lastName,
-        publicKey: account.keys.publicKey,
-        pds: account.pds
+        data: {
+          firstName: account.firstName,
+          lastName: account.lastName,
+          publicKey: account.keys.publicKey,
+          pds: {
+            provider: 'dropbox',
+            access_token: account.pds.access_token
+          }
+        },
+        signature: expect.any(String)
       }
       expect(axios.put).toHaveBeenCalledWith('aTotallyLegitOperatorUrl/accounts/abc123', expected)
     })
@@ -82,11 +93,16 @@ describe('account', () => {
         await accountService.save(account)
 
         const expected = {
-          id: account.id,
-          firstName: account.firstName,
-          lastName: account.lastName,
-          publicKey: account.keys.publicKey,
-          pds: account.pds
+          data: {
+            firstName: account.firstName,
+            lastName: account.lastName,
+            publicKey: account.keys.publicKey,
+            pds: {
+              provider: 'dropbox',
+              access_token: account.pds.access_token
+            }
+          },
+          signature: expect.any(String)
         }
         expect(axios.put).toHaveBeenCalledWith('aTotallyLegitOperatorUrl/accounts/abc123', expected)
       })
@@ -104,10 +120,16 @@ describe('account', () => {
         await accountService.save(account)
 
         const expected = {
-          firstName: account.firstName,
-          lastName: account.lastName,
-          publicKey: account.keys.publicKey,
-          pds: account.pds
+          data: {
+            firstName: account.firstName,
+            lastName: account.lastName,
+            publicKey: account.keys.publicKey,
+            pds: {
+              provider: 'dropbox',
+              access_token: account.pds.access_token
+            }
+          },
+          signature: expect.any(String)
         }
         expect(axios.post).toHaveBeenCalledWith('aTotallyLegitOperatorUrl/accounts', expected)
       })

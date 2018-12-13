@@ -1,21 +1,29 @@
-jest.mock('react-native', () => ({
-    AsyncStorage: {
-        setItem: jest.fn(),
-        getItem: jest.fn(),
-        removeItem: jest.fn()
-      },
-    Text: jest.fn(),
-    View: jest.fn()
+import Enzyme from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
+import { Animated } from 'react-native'
+
+Enzyme.configure({adapter: new Adapter()})
+
+jest.mock('AsyncStorage', () => ({
+  setItem: jest.fn(),
+  getItem: jest.fn(),
+  removeItem: jest.fn()
 }))
+
+// jest.mock('styled-components', () => jest.fn(component => component))
 
 jest.mock('axios')
 jest.mock('react-native-config', () => ({
     Config: {}
 }))
 
-jest.mock('react-native-paper', () => ({
-    TextInput: jest.fn(),
-    Button: jest.fn()
+jest.mock('react-native-vector-icons/AntDesign', () => jest.fn())
+jest.mock('react-native-vector-icons/FontAwesome5', () => jest.fn())
+jest.mock('react-native-rsa-native', () => ({
+  RSA: {
+    generateKeys: jest.fn(),
+    sign: jest.fn().mockReturnValue('signature')
+  }
 }))
 
 console.error = jest.fn()
