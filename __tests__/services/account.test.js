@@ -24,7 +24,7 @@ describe('account', () => {
   describe('#register', () => {
     beforeEach(() => {
       account.id = undefined
-      axios.post.mockResolvedValue({ data: { id: 'abc123' } })
+      axios.post.mockResolvedValue({ data: { data: { id: 'abc123' } } })
     })
     it('calls axios.post', async () => {
       await accountService.register(account)
@@ -85,7 +85,7 @@ describe('account', () => {
 
   describe('#save', () => {
     beforeEach(() => {
-      axios.post.mockResolvedValue({ data: { id: 'abc123' } })
+      axios.post.mockResolvedValue({ data: { data: { id: 'abc123' } } })
       axios.put.mockResolvedValue({})
     })
     describe('existing user', () => {
