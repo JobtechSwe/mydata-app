@@ -25,7 +25,7 @@ function pluck(account) {
 }
 
 export async function register (account) {
-  const { data: { id } } = await axios.post(`${Config.OPERATOR_URL}/accounts`, pluckAndSign(account))
+  const { data: { data: { id } } } = await axios.post(`${Config.OPERATOR_URL}/accounts`, pluckAndSign(account))
   return id
 }
 

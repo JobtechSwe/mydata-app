@@ -44,10 +44,12 @@ export default class AccountScreen extends Screen {
   }
 
   saveAccount = async (account) => {
-    await storeAccount(account)
     if (account.keys && account.pds) {
+      console.log('save account')
       account = await save(account)
+      console.log('account', account)
     }
+    await storeAccount(account)
     this.setState({account})
 
     switch(this.state.action) {
