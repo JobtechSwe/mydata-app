@@ -3,7 +3,14 @@ import HomeScreen from './screens/HomeScreen'
 import AccountScreen from './screens/AccountScreen'
 import ManageConsentsRequestScreen from './screens/ManageConsentsRequestScreen'
 import React from 'react'
-import { Provider as PaperProvider } from 'react-native-paper'
+import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper'
+
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors
+  },
+}
 
 const stackConfig = {
   initialRouteName: 'Home'
@@ -16,7 +23,7 @@ const App = createStackNavigator({
 }, stackConfig)
 
 export default () => (
-  <PaperProvider>
+  <PaperProvider theme={theme}>
     <App/>
   </PaperProvider>
 )

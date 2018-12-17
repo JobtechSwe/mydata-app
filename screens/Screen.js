@@ -1,5 +1,4 @@
 import { Component } from 'react'
-import { NavigationEvents } from 'react-navigation'
 
 export default class Screen extends Component {
   componentWillMount () {

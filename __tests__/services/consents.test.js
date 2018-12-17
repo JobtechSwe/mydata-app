@@ -6,23 +6,14 @@ Config.OPERATOR_URL = 'aTotallyLegitOperatorUrl'
 jest.useFakeTimers()
 
 describe('consentService', () => {
-  describe('#subscribe', () => {
-    it('calls axios.get with correct url', () => {
-      const desiredURL = 'aTotallyLegitOperatorUrl/accounts/id_software/consents'
-      consentService.subscribe('id_software', () => {})
-      jest.runOnlyPendingTimers() // trigger polling
-      expect(axios.get).toHaveBeenCalledWith(desiredURL)
-    })
 
-    it('url-encodes values before using them with axios.get', () => {
-      const desiredURL = 'aTotallyLegitOperatorUrl/accounts/b%2F%20%3Da/consents'
-      consentService.subscribe('b/ =a', () => {})
-      jest.runOnlyPendingTimers() // trigger polling
-      expect(axios.get).toHaveBeenCalledWith(desiredURL)
+  describe('#get', () => {
+    it('calls axios.get with correct url', () => {
+      consentService.get('abcd')
+      expect(axios.get).toBeCalledWith('aTotallyLegitOperatorUrl/consents/requests/abcd')
     })
   })
-
-  describe('#approve', () => {
+  xdescribe('#approve', () => {
     it('calls axios.put with correct url', () => {
       const consent = {
         account_id: 'foo',

@@ -1,30 +1,35 @@
 import React from 'react'
-import { View } from 'react-native'
-import { Button, TextInput } from 'react-native-paper'
 import Screen from './Screen'
-import Scan from '../components/scan'
+import EnterConsentCode from '../components/EnterConsentCode'
+import ConsentRequest from '../components/ConsentRequest'
+import { View } from 'react-native'
+import { withTheme } from 'react-native-paper'
 
-export default class ManageConsentsRequestScreen extends Screen {
+class ManageConsentsRequestScreen extends Screen {
   state = {
-    action: 'enter',
+    view: 'enter',
     code: ''
   }
-  scan = () => {
-    this.setState({action: 'scan'})
+
+  // Events
+  onCodeChange = (code) => {
+    this.setState({code})
   }
-  onRead = (code) => {
-    this.setState({action: 'enter', code})
+
+  // Actions
+  getConsentRequest = () => {
+    this.setState({view: 'getRequest'})
   }
+
   render() {
-    switch (this.state.action) {
-      case 'scan': return (<Scan onRead={this.onRead} />)
-      default: return (
-        <View>
-          <TextInput label="code" value={this.state.code} />
-          <Button label="enter" onPress={this.enter}>Enter</Button>
-          <Button label="scan" onPress={this.scan}>Scan</Button>
-        </View>
-      )
+    switch (this.state.view) {
+      case 'getRequest':
+        return (<ConsentRequest consentRequestId={this.state.code} />)
+      case 'enter':
+      default:
+        return (<EnterConsentCode onCodeChange={this.onCodeChange} onEnterPress={this.getConsentRequest} />)
     }
   }
 }
+
+export default withTheme(ManageConsentsRequestScreen)

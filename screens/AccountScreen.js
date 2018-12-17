@@ -4,9 +4,9 @@ import styled from 'styled-components'
 
 import Screen from './Screen'
 import { getAccount, storeAccount } from '../services/storage'
-import Account from '../components/account'
-import KeyPair from '../components/keypair'
-import PDS from '../components/pds'
+import Account from '../components/Account'
+import KeyPair from '../components/KeyPair'
+import PDS from '../components/PDS'
 import { save } from '../services/account'
 
 const InstructionText = styled(Text)`
