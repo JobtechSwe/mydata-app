@@ -69,6 +69,10 @@ export default class HomeScreen extends Screen {
   editAccount = () => {
     this.props.navigation.navigate('Account')
   }
+
+  manageConsentsRequest = () => {
+    this.props.navigation.navigate('ManageConsentsRequest')
+  }
   
   clearAccount = async () => {
     Alert.alert('Clear account', 'Are you sure you want to clear your account? This is a REALLY bad idea!', [
@@ -97,6 +101,7 @@ export default class HomeScreen extends Screen {
       <StyledView>
         <WelcomeText>Hello {this.state.account?.firstName} {this.state.account?.lastName}!</WelcomeText>
         <Button title="Edit Account" onPress={this.editAccount}>Edit account</Button>
+        <Button title="Manage Consents Request" onPress={this.manageConsentsRequest}>Manage Consents Request</Button>       
         <Button title="Clear Account" onPress={this.clearAccount}>Clear account</Button>
         <ScrollView>
           <JSONTree data={this.state.account} />
