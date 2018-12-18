@@ -8,7 +8,6 @@ export async function get (id) {
 }
 
 export async function approve (consent) {
-  const url = `${Config.OPERATOR_URL}/consents/${encodeURIComponent(consent.id)}`
-  consent.status = 'approved'
-  await axios.put(url, consent)
+  const url = `${Config.OPERATOR_URL}/consents/`
+  await axios.post(url, consent)
 }

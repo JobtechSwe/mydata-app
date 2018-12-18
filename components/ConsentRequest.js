@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { View } from 'react-native'
 import { Headline, Button, List, Text, withTheme } from 'react-native-paper'
 import * as consentsService from '../services/consents'
+import * as storage from '../services/storage'
 
 class ConsentRequest extends Component {
   state = {
@@ -15,7 +16,8 @@ class ConsentRequest extends Component {
   }
 
   accept = () => {
-
+    const { id } = storage.getAccount()
+    consentsService.approve({ ...this.state.consentRequest, accountId: id })
   }
 
   reject = () => {
