@@ -15,9 +15,11 @@ class ConsentRequest extends Component {
     this.setState({ consentRequest, view: 'approve'})
   }
 
-  accept = async () => {
-    const { id } = storage.getAccount()
-    await consentsService.approve({ ...this.state.consentRequest, accountId: id })
+  approve = async () => {
+    const { id } = await storage.getAccount()
+    this.setState({view: 'approving'})
+    await consentsService.approve({ ...this.state.consentRequest.request, accountId: id })
+    this.props.onApprove()
   }
 
   reject = () => {
@@ -33,19 +35,21 @@ class ConsentRequest extends Component {
       case 'approve':
         return (
           <View>
-            <Text>This app:</Text>
-            <Headline>{this.state.consentRequest.client.display_name}</Headline>
-            <Text>{this.state.consentRequest.client.description}</Text>
-            <Text>Wants these permissions</Text>
-            <List.Section>
-              {this.state.consentRequest.request.scope.map(scope => <List.Item title={scope} />)}
+            <Text style={{ marginBottom: 5 }}>This app:</Text>
+            <Headline style={{ marginBottom: 5 }}>{this.state.consentRequest.client.display_name}</Headline>
+            <Text style={{ marginBottom: 5 }}>{this.state.consentRequest.client.description}</Text>
+            <Text style={{ marginBottom: 5 }}>Wants these permissions</Text>
+            <List.Section style={{ marginBottom: 5 }}>
+              {this.state.consentRequest.request.scope.map(scope => <List.Item title={scope} key={scope} />)}
             </List.Section>
-            <Button mode="contained" icon="check-circle" style={{ backgroundColor: this.props.theme.colors.accent }} onPress={this.approve}>I Approve!</Button>
-            <Button mode="contained" icon="block" style={{ backgroundColor: this.props.theme.colors.error }} onPress={this.reject}>Nope!</Button>
+            <Button mode="contained" icon="check-circle" style={{ backgroundColor: this.props.theme.colors.accent, marginBottom: 5 }} onPress={this.approve}>I Approve!</Button>
+            <Button mode="contained" icon="block" style={{ backgroundColor: this.props.theme.colors.error, marginBottom: 5 }} onPress={this.reject}>Nope!</Button>
           </View>
         )
+      case 'approving':
+        return (<Text>Approving...</Text>)
       case 'generating':
-          return (<View />)
+        return (<View />)
     }
   }
 }

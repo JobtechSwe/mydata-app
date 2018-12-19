@@ -15,6 +15,9 @@ class ManageConsentsRequestScreen extends Screen {
   onCodeChange = (code) => {
     this.setState({code})
   }
+  onApprove = () => {
+    this.props.navigation.goBack()
+  }
 
   // Actions
   getConsentRequest = () => {
@@ -24,7 +27,7 @@ class ManageConsentsRequestScreen extends Screen {
   render() {
     switch (this.state.view) {
       case 'getRequest':
-        return (<ConsentRequest consentRequestId={this.state.code} />)
+        return (<ConsentRequest consentRequestId={this.state.code} onApprove={this.onApprove} />)
       case 'enter':
       default:
         return (<EnterConsentCode onCodeChange={this.onCodeChange} onEnterPress={this.getConsentRequest} />)
