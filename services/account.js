@@ -11,7 +11,7 @@ function pluckAndSign(account) {
   }
 }
 
-function pluck(account) {
+function pluck (account) {
   const data = {
     firstName: account.firstName,
     lastName: account.lastName,
