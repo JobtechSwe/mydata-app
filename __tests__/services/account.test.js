@@ -38,13 +38,16 @@ describe('account', () => {
         data: {
           firstName: account.firstName,
           lastName: account.lastName,
-          publicKey: account.keys.publicKey,
+          publicKey: Buffer.from(account.keys.publicKey).toString('base64'),
           pds: {
             provider: 'dropbox',
             access_token: account.pds.access_token
           }
         },
-        signature: expect.any(String)
+        signature: {
+          alg: 'RSA-SHA512',
+          data: expect.any(String)
+        }
       }
       expect(axios.post).toHaveBeenCalledWith('aTotallyLegitOperatorUrl/accounts', expected)
     })
@@ -71,13 +74,16 @@ describe('account', () => {
         data: {
           firstName: account.firstName,
           lastName: account.lastName,
-          publicKey: account.keys.publicKey,
+          publicKey: Buffer.from(account.keys.publicKey).toString('base64'),
           pds: {
             provider: 'dropbox',
             access_token: account.pds.access_token
           }
         },
-        signature: expect.any(String)
+        signature: {
+          alg: 'RSA-SHA512',
+          data: expect.any(String)
+        }
       }
       expect(axios.put).toHaveBeenCalledWith('aTotallyLegitOperatorUrl/accounts/abc123', expected)
     })
@@ -96,13 +102,16 @@ describe('account', () => {
           data: {
             firstName: account.firstName,
             lastName: account.lastName,
-            publicKey: account.keys.publicKey,
+            publicKey: Buffer.from(account.keys.publicKey).toString('base64'),
             pds: {
               provider: 'dropbox',
               access_token: account.pds.access_token
             }
           },
-          signature: expect.any(String)
+          signature: {
+            alg: 'RSA-SHA512',
+            data: expect.any(String)
+          }
         }
         expect(axios.put).toHaveBeenCalledWith('aTotallyLegitOperatorUrl/accounts/abc123', expected)
       })
@@ -123,13 +132,16 @@ describe('account', () => {
           data: {
             firstName: account.firstName,
             lastName: account.lastName,
-            publicKey: account.keys.publicKey,
+            publicKey: Buffer.from(account.keys.publicKey).toString('base64'),
             pds: {
               provider: 'dropbox',
               access_token: account.pds.access_token
             }
           },
-          signature: expect.any(String)
+          signature: {
+            alg: 'RSA-SHA512',
+            data: expect.any(String)
+          }
         }
         expect(axios.post).toHaveBeenCalledWith('aTotallyLegitOperatorUrl/accounts', expected)
       })

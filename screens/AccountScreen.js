@@ -68,10 +68,12 @@ export default class AccountScreen extends Screen {
   }
 
   onGenerateKeys = (keys) => {
+    console.log('onGenerateKeys', keys)
     this.saveAccount({ ...this.state.account, keys})
   }
 
   onDropboxConnect = (pds) => {
+    console.log('onDropboxConnect', pds)
     this.saveAccount({ ...this.state.account, pds })
   }
 

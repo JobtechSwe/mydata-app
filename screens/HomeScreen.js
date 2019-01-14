@@ -104,7 +104,7 @@ export default class HomeScreen extends Screen {
         <Button title="Manage Consents Request" onPress={this.manageConsentsRequest}>Manage Consents Request</Button>       
         <Button title="Clear Account" onPress={this.clearAccount}>Clear account</Button>
         <ScrollView>
-          <JSONTree data={this.state.account} />
+          <JSONTree data={this.state.account || {}} />
         </ScrollView>
       </StyledView>
     );
