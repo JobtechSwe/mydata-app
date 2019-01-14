@@ -107,6 +107,7 @@ android {
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
+        multiDexEnabled true
     }
     splits {
         abi {
@@ -143,6 +144,9 @@ dependencies {
     compile project(':react-native-config')
     compile project(':react-native-vector-icons')
     compile project(':react-native-push-notification')
+    compile ("com.android.support:support-v4:26.0.1") {
+        force = true //<-- force dependency resolution to 26.0.1 in my case
+    }
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     implementation "com.facebook.react:react-native:+"  // From node_modules
