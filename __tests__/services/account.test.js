@@ -1,12 +1,14 @@
 import * as accountService from '../../services/account'
 import axios from 'axios'
+import { RSA } from 'react-native-rsa-native'
 import Config from 'react-native-config'
 
 Config.OPERATOR_URL = 'aTotallyLegitOperatorUrl'
 
 describe('account', () => {
   let account
-  beforeEach(() => {
+  beforeEach(async () => {
+    const keys = await RSA.generateKeys(1024)
     account = {
       id: 'abc123',
       firstName: 'Foo',
@@ -15,8 +17,8 @@ describe('account', () => {
         access_token: 'abc'
       },
       keys: {
-        publicKey: 'public',
-        privateKey: 'private'
+        publicKey: keys.public,
+        privateKey: keys.private
       }
     }
   })

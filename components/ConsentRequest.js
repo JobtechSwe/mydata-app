@@ -18,7 +18,7 @@ class ConsentRequest extends Component {
   approve = async () => {
     const { id } = await storage.getAccount()
     this.setState({view: 'approving'})
-    await consentsService.approve({ ...this.state.consentRequest.request, accountId: id })
+    await consentsService.approve({ ...this.state.consentRequest, accountId: id })
     this.props.onApprove()
   }
 
@@ -40,7 +40,7 @@ class ConsentRequest extends Component {
             <Text style={{ marginBottom: 5 }}>{this.state.consentRequest.client.description}</Text>
             <Text style={{ marginBottom: 5 }}>Wants these permissions</Text>
             <List.Section style={{ marginBottom: 5 }}>
-              {this.state.consentRequest.data.scope.map(scope => <List.Item title={scope.description} key={scope.area} />)}
+              {this.state.consentRequest.data.scope.map(scope => <List.Item title={scope.area} description={scope.description} key={scope.area} />)}
             </List.Section>
             <Button mode="contained" icon="check-circle" style={{ backgroundColor: this.props.theme.colors.accent, marginBottom: 5 }} onPress={this.approve}>I Approve!</Button>
             <Button mode="contained" icon="block" style={{ backgroundColor: this.props.theme.colors.error, marginBottom: 5 }} onPress={this.reject}>Nope!</Button>

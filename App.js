@@ -5,6 +5,8 @@ import ManageConsentsRequestScreen from './screens/ManageConsentsRequestScreen'
 import React from 'react'
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper'
 
+import { NativeModules, Platform } from 'react-native'
+
 const theme = {
   ...DefaultTheme,
   colors: {

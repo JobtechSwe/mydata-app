@@ -32,12 +32,12 @@ OPERATOR_URL=http://192.168.110.130:3000/api
 (or whatever adress you are running the operator on)
 * Run
 ```bash
-react-native link react-native-config
-react-native link react-native-rsa-native
-react-native link react-native-vector-icons
-react-native link react-native-push-notification
-react-native link react-native-camera
-react-native link react-native-qrcode-scanner
+react-native link react-native-config && \
+react-native link react-native-rsa-native && \
+react-native link react-native-vector-icons && \
+react-native link react-native-push-notification && \
+react-native link react-native-camera && \
+react-native link react-native-qrcode-scanner && \
 react-native link react-native-permissions
 ```
 

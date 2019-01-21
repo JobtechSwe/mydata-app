@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { View } from 'react-native'
 import { Button, TextInput, withTheme } from 'react-native-paper'
-import { parse, unparse } from 'react-native-uuid'
 import ScanQRConsentCode from './ScanQRConsentCode'
+
+const rxUUID = /\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b/
 
 class EnterConsentCode extends Component {
   state = {
@@ -18,7 +19,7 @@ class EnterConsentCode extends Component {
     this.setState({ view: 'enter' })
   }
   validate = (code) => {
-    return unparse(parse(code)) === code
+    return rxUUID.test(code.toLowerCase())
   }
   
   onChange = (code) => {
