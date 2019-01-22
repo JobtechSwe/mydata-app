@@ -4,6 +4,7 @@ import Config from 'react-native-config'
 import { getAccount } from '../../services/storage'
 import { RSA } from 'react-native-rsa-native'
 import { rsaPublicKeyToPEM } from '../../services/rsaUtils'
+import { Base64 } from 'js-base64'
 
 jest.mock('../../services/storage')
 Config.OPERATOR_URL = 'aTotallyLegitOperatorUrl'
@@ -125,10 +126,10 @@ describe('consentService', () => {
       expect(axios.post).toHaveBeenCalledWith('aTotallyLegitOperatorUrl/consents', {
         data: {
           accountId: 'c1949de3-6662-43c9-8cc1-578169ea817b',
-          publicKey: btoa(account.keys.publicKey),
+          publicKey: Base64.encode(account.keys.publicKey),
           clientId: 'localhost:4000',
           consentId: 'abcd',
-          consentEncryptionKey: btoa(clientEncryptionKey),
+          consentEncryptionKey: Base64.encode(clientEncryptionKey),
           scope: consentRequest.data.scope
         },
         signature: expect.any(Object)

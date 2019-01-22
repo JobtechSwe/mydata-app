@@ -1,6 +1,7 @@
 import axios from 'axios'
 import Config from 'react-native-config'
 import { sign } from './crypto'
+import { Base64 } from 'js-base64'
 
 async function pluckAndSign (account) {
   const data = pluck(account)
@@ -16,7 +17,7 @@ function pluck (account) {
   const data = {
     firstName: account.firstName,
     lastName: account.lastName,
-    publicKey: btoa(account.keys.publicKey),
+    publicKey: Base64.encode(account.keys.publicKey),
     pds: {
       provider: 'dropbox',
       access_token: account.pds.access_token

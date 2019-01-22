@@ -1,8 +1,4 @@
 {
   "extends": ["standard", "plugin:jest/recommended" ],
-  "plugins": ["jest"],
-  "globals": {
-    "atob": true,
-    "btoa": true
-  }
+  "plugins": ["jest"]
 }

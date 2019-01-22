@@ -3,6 +3,7 @@ import axios from 'axios'
 import JwksClient from './JwksClient'
 import { sign, verify } from './crypto'
 import { getAccount } from './storage'
+import { Base64 } from 'js-base64'
 
 export async function get (id) {
   const account = await getAccount()
@@ -31,16 +32,15 @@ export async function approve ({ data, client }) {
   const account = await getAccount()
   const jwksUri = `http://${data.clientId}${client.jwksUrl}`
   const jwksClient = new JwksClient({ jwksUri })
-
   const encryptionKey = await jwksClient.getEncryptionKey(data.kid)
 
   const url = `${Config.OPERATOR_URL}/consents`
   const consent = {
     accountId: account.id,
-    publicKey: btoa(account.keys.publicKey),
+    publicKey: Base64.encode(account.keys.publicKey),
     clientId: data.clientId,
     consentId: data.consentRequestId,
-    consentEncryptionKey: btoa(encryptionKey.publicKey || encryptionKey.rsaPublicKey),
+    consentEncryptionKey: Base64.encode(encryptionKey.publicKey || encryptionKey.rsaPublicKey),
     scope: data.scope
   }
   const signature = await sign(consent, account.keys.privateKey)
