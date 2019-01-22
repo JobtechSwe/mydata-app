@@ -1,18 +1,15 @@
 import axios from 'axios'
 import Config from 'react-native-config'
-import { RSA } from 'react-native-rsa-native'
+import { sign } from './crypto'
 
 async function pluckAndSign (account) {
   const data = pluck(account)
   const dataToSign = JSON.stringify(data)
-  const signature = await RSA.sign(dataToSign, account.keys.privateKey)
+  const signature = await sign(dataToSign, account.keys.privateKey)
 
   return {
     data,
-    signature: {
-      alg: 'RSA-SHA512',
-      data: signature
-    }
+    signature
   }
 }
 

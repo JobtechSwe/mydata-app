@@ -2,6 +2,7 @@ import Config from 'react-native-config'
 import axios from 'axios'
 import JwksClient from './JwksClient'
 import { RSA } from 'react-native-rsa-native'
+import { sign, verify } from './crypto'
 import { getAccount } from './storage'
 
 export async function get (id) {
@@ -14,7 +15,7 @@ export async function get (id) {
   const jwksClient = new JwksClient({ jwksUri })
   const signingKey = await jwksClient.getSigningKey('client_key')
 
-  if (!await RSA.verify(signature.data, JSON.stringify(data), signingKey.publicKey || signingKey.rsaPublicKey)) {
+  if (!await verify(data, signature, signingKey.publicKey || signingKey.rsaPublicKey)) {
     throw new Error('Invalid signature')
   }
 
@@ -37,13 +38,11 @@ export async function approve ({ data, client }) {
   const url = `${Config.OPERATOR_URL}/consents`
   const consent = {
     accountId: account.id,
+    accountKey: btoa(account.keys.publicKey),
     consentId: data.consentRequestId,
     consentEncryptionKey: btoa(encryptionKey.publicKey || encryptionKey.rsaPublicKey),
     scope: []
   }
-  const signature = {
-    kid: 'account_key',
-    data: await RSA.sign(JSON.stringify(consent), account.keys.privateKey)
-  }
+  const signature = await sign(consent, account.keys.privateKey)
   await axios.post(url, { data: consent, signature })
 }
