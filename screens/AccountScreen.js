@@ -45,9 +45,7 @@ export default class AccountScreen extends Screen {
 
   saveAccount = async (account) => {
     if (account.keys && account.pds) {
-      console.log('save account')
       account = await save(account)
-      console.log('account', account)
     }
     await storeAccount(account)
     this.setState({account})
@@ -68,12 +66,10 @@ export default class AccountScreen extends Screen {
   }
 
   onGenerateKeys = (keys) => {
-    console.log('onGenerateKeys', keys)
     this.saveAccount({ ...this.state.account, keys})
   }
 
   onDropboxConnect = (pds) => {
-    console.log('onDropboxConnect', pds)
     this.saveAccount({ ...this.state.account, pds })
   }
 

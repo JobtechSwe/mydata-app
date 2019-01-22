@@ -4,8 +4,7 @@ import { sign } from './crypto'
 
 async function pluckAndSign (account) {
   const data = pluck(account)
-  const dataToSign = JSON.stringify(data)
-  const signature = await sign(dataToSign, account.keys.privateKey)
+  const signature = await sign(data, account.keys.privateKey)
 
   return {
     data,
