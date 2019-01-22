@@ -125,10 +125,11 @@ describe('consentService', () => {
       expect(axios.post).toHaveBeenCalledWith('aTotallyLegitOperatorUrl/consents', {
         data: {
           accountId: 'c1949de3-6662-43c9-8cc1-578169ea817b',
-          accountKey: btoa(account.keys.publicKey),
+          publicKey: btoa(account.keys.publicKey),
+          clientId: 'localhost:4000',
           consentId: 'abcd',
           consentEncryptionKey: btoa(clientEncryptionKey),
-          scope: []
+          scope: consentRequest.data.scope
         },
         signature: expect.any(Object)
       })

@@ -1,7 +1,6 @@
 import Config from 'react-native-config'
 import axios from 'axios'
 import JwksClient from './JwksClient'
-import { RSA } from 'react-native-rsa-native'
 import { sign, verify } from './crypto'
 import { getAccount } from './storage'
 
@@ -38,10 +37,11 @@ export async function approve ({ data, client }) {
   const url = `${Config.OPERATOR_URL}/consents`
   const consent = {
     accountId: account.id,
-    accountKey: btoa(account.keys.publicKey),
+    publicKey: btoa(account.keys.publicKey),
+    clientId: data.clientId,
     consentId: data.consentRequestId,
     consentEncryptionKey: btoa(encryptionKey.publicKey || encryptionKey.rsaPublicKey),
-    scope: []
+    scope: data.scope
   }
   const signature = await sign(consent, account.keys.privateKey)
   await axios.post(url, { data: consent, signature })
