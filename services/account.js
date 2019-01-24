@@ -27,14 +27,26 @@ function pluck (account) {
 }
 
 export async function register (account) {
+  const url = `${Config.OPERATOR_URL}/accounts`
   const payload = await pluckAndSign(account)
-  const { data: { data: { id } } } = await axios.post(`${Config.OPERATOR_URL}/accounts`, payload)
-  return id
+  try {
+    const { data: { data: { id } } } = await axios.post(url, payload)
+    return id
+  } catch (error) {
+    console.error('POST', url, payload, error)
+    throw error
+  }
 }
 
 export async function update (account) {
+  const url = `${Config.OPERATOR_URL}/accounts/${account.id}`
   const payload = await pluckAndSign(account)
-  await axios.put(`${Config.OPERATOR_URL}/accounts/${account.id}`, payload)
+  try {
+    await axios.put(url, payload)
+  } catch (error) {
+    console.error('PUT', url, payload, error)
+    throw error
+  }
 }
 
 export async function save (account) {
