@@ -60,7 +60,7 @@ export async function approve ({ data, client }) {
       accountId: account.id,
       publicKey: Base64.encode(account.keys.publicKey),
       clientId: data.clientId,
-      consentId: data.consentRequestId,
+      consentRequestId: data.consentRequestId,
       consentEncryptionKey: Base64.encode(encryptionKey.publicKey || encryptionKey.rsaPublicKey),
       scope: data.scope
     }

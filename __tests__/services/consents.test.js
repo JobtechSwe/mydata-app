@@ -128,7 +128,7 @@ describe('consentService', () => {
           accountId: 'c1949de3-6662-43c9-8cc1-578169ea817b',
           publicKey: Base64.encode(account.keys.publicKey),
           clientId: 'localhost:4000',
-          consentId: 'abcd',
+          consentRequestId: 'abcd',
           consentEncryptionKey: Base64.encode(clientEncryptionKey),
           scope: consentRequest.data.scope
         },
