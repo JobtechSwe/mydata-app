@@ -27,7 +27,8 @@ class EnterConsentCode extends Component {
     this.props.onCodeChange(code)
   }
   onScanQRCode = (code) => {
-    this.setState({ view: 'enter', code })
+    this.setState({ view: 'enter', code, validated: this.validate(code) })
+    this.props.onCodeChange(code)
   }
   enter = () => {
     this.props.onEnterPress()
