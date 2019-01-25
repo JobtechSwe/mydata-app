@@ -40,13 +40,14 @@ describe('account', () => {
         data: {
           firstName: account.firstName,
           lastName: account.lastName,
-          publicKey: Buffer.from(account.keys.publicKey).toString('base64'),
+          accountKey: Buffer.from(account.keys.publicKey).toString('base64'),
           pds: {
             provider: 'dropbox',
             access_token: account.pds.access_token
           }
         },
         signature: {
+          kid: 'account_key',
           alg: 'RSA-SHA512',
           data: expect.any(String)
         }
@@ -76,7 +77,7 @@ describe('account', () => {
         data: {
           firstName: account.firstName,
           lastName: account.lastName,
-          publicKey: Buffer.from(account.keys.publicKey).toString('base64'),
+          accountKey: Buffer.from(account.keys.publicKey).toString('base64'),
           pds: {
             provider: 'dropbox',
             access_token: account.pds.access_token
@@ -84,6 +85,7 @@ describe('account', () => {
         },
         signature: {
           alg: 'RSA-SHA512',
+          kid: 'account_key',
           data: expect.any(String)
         }
       }
@@ -104,7 +106,7 @@ describe('account', () => {
           data: {
             firstName: account.firstName,
             lastName: account.lastName,
-            publicKey: Buffer.from(account.keys.publicKey).toString('base64'),
+            accountKey: Buffer.from(account.keys.publicKey).toString('base64'),
             pds: {
               provider: 'dropbox',
               access_token: account.pds.access_token
@@ -112,6 +114,7 @@ describe('account', () => {
           },
           signature: {
             alg: 'RSA-SHA512',
+            kid: 'account_key',
             data: expect.any(String)
           }
         }
@@ -134,7 +137,7 @@ describe('account', () => {
           data: {
             firstName: account.firstName,
             lastName: account.lastName,
-            publicKey: Buffer.from(account.keys.publicKey).toString('base64'),
+            accountKey: Buffer.from(account.keys.publicKey).toString('base64'),
             pds: {
               provider: 'dropbox',
               access_token: account.pds.access_token
@@ -142,6 +145,7 @@ describe('account', () => {
           },
           signature: {
             alg: 'RSA-SHA512',
+            kid: 'account_key',
             data: expect.any(String)
           }
         }

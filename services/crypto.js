@@ -1,7 +1,8 @@
 import { RSA } from 'react-native-rsa-native'
 
-export async function sign (data, privateKey) {
+export async function sign (data, kid, privateKey) {
   return {
+    kid,
     alg: 'RSA-SHA512',
     data: await RSA.sign(JSON.stringify(data), privateKey)
   }

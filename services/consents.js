@@ -58,13 +58,13 @@ export async function approve ({ data, client }) {
 
     const consent = {
       accountId: account.id,
-      publicKey: Base64.encode(account.keys.publicKey),
+      accountKey: Base64.encode(account.keys.publicKey),
       clientId: data.clientId,
       consentRequestId: data.consentRequestId,
       consentEncryptionKey: Base64.encode(encryptionKey.publicKey || encryptionKey.rsaPublicKey),
       scope: data.scope
     }
-    const signature = await sign(consent, account.keys.privateKey)
+    const signature = await sign(consent, 'account_key', account.keys.privateKey)
     payload = { data: consent, signature }
     await axios.post(url, payload)
   } catch (error) {

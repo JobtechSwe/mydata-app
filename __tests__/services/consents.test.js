@@ -49,7 +49,7 @@ describe('consentService', () => {
       },
       client: {
         clientId: 'localhost:4000',
-        publicKey: '-----BEGIN RSA PUBLIC KEY-----\nMIGJAoGBAMcq3gQT5ZpoDr73G5HrQpsvuB+fsgQqdKtfIM5kJLB7mmoOUwxoD+bG\nIrvC+bIHBmtQE+SudYjLtYOjEX3HnoPw2oE7+zNhIlRFOBB2aGlMozWzssJqqfhA\nvDdkZGeS8SfJjo1VjozxA+iQVjjMmU2+Wnw1Z0cY1p3+OZchkqOnAgMBAAE=\n-----END RSA PUBLIC KEY-----\n',
+        clientKey: '-----BEGIN RSA PUBLIC KEY-----\nMIGJAoGBAMcq3gQT5ZpoDr73G5HrQpsvuB+fsgQqdKtfIM5kJLB7mmoOUwxoD+bG\nIrvC+bIHBmtQE+SudYjLtYOjEX3HnoPw2oE7+zNhIlRFOBB2aGlMozWzssJqqfhA\nvDdkZGeS8SfJjo1VjozxA+iQVjjMmU2+Wnw1Z0cY1p3+OZchkqOnAgMBAAE=\n-----END RSA PUBLIC KEY-----\n',
         displayName: 'My CV',
         description: 'An app for your CV online',
         jwksUrl: '/jwks',
@@ -126,13 +126,17 @@ describe('consentService', () => {
       expect(axios.post).toHaveBeenCalledWith('aTotallyLegitOperatorUrl/consents', {
         data: {
           accountId: 'c1949de3-6662-43c9-8cc1-578169ea817b',
-          publicKey: Base64.encode(account.keys.publicKey),
+          accountKey: Base64.encode(account.keys.publicKey),
           clientId: 'localhost:4000',
           consentRequestId: 'abcd',
           consentEncryptionKey: Base64.encode(clientEncryptionKey),
           scope: consentRequest.data.scope
         },
-        signature: expect.any(Object)
+        signature: {
+          alg: 'RSA-SHA512',
+          kid: 'account_key',
+          data: expect.any(String)
+        }
       })
     })
   })

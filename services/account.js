@@ -5,7 +5,7 @@ import { Base64 } from 'js-base64'
 
 async function pluckAndSign (account) {
   const data = pluck(account)
-  const signature = await sign(data, account.keys.privateKey)
+  const signature = await sign(data, 'account_key', account.keys.privateKey)
 
   return {
     data,
@@ -17,7 +17,7 @@ function pluck (account) {
   const data = {
     firstName: account.firstName,
     lastName: account.lastName,
-    publicKey: Base64.encode(account.keys.publicKey),
+    accountKey: Base64.encode(account.keys.publicKey),
     pds: {
       provider: 'dropbox',
       access_token: account.pds.access_token

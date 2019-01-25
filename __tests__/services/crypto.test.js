@@ -16,9 +16,10 @@ describe('services/crypto', () => {
     })
 
     it('generates valid signature', async () => {
-      const result = await sign(data, keys.private)
+      const result = await sign(data, 'account_key', keys.private)
       const expectedResult = {
         alg: 'RSA-SHA512',
+        kid: 'account_key',
         data: await RSA.sign(JSON.stringify(data), keys.private)
       }
 
@@ -27,7 +28,7 @@ describe('services/crypto', () => {
 
     describe('verify', () => {
       it('verifies a correctly signed payload', async () => {
-        const signature = await sign(data, keys.private)
+        const signature = await sign(data, 'account_key', keys.private)
         const result = await verify(data, signature, keys.public)
 
         expect(result).toBe(true)
@@ -44,7 +45,7 @@ describe('services/crypto', () => {
       })
 
       it('returns false if signature is wrong', async () => {
-        const signature = await sign(data, keys.private)
+        const signature = await sign(data, 'account_key', keys.private)
         signature.data = 'herp-derp'
         const result = await verify(data, signature, keys.public)
 
@@ -52,7 +53,7 @@ describe('services/crypto', () => {
       })
 
       it('returns false if key is wrong', async () => {
-        const signature = await sign(data, keys.private)
+        const signature = await sign(data, 'account_key', keys.private)
 
         const otherKeys = await RSA.generateKeys(1024)
         const result = await verify(data, signature, otherKeys.public)
