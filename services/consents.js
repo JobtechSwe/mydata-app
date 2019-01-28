@@ -62,6 +62,7 @@ export async function approve ({ data, client }) {
       clientId: data.clientId,
       consentRequestId: data.consentRequestId,
       consentEncryptionKey: Base64.encode(encryptionKey.publicKey || encryptionKey.rsaPublicKey),
+      consentEncryptionKeyId: data.kid,
       scope: data.scope
     }
     const signature = await sign(consent, 'account_key', account.keys.privateKey)

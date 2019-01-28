@@ -130,6 +130,7 @@ describe('consentService', () => {
           clientId: 'localhost:4000',
           consentRequestId: 'abcd',
           consentEncryptionKey: Base64.encode(clientEncryptionKey),
+          consentEncryptionKeyId: 'enc_20190114122318',
           scope: consentRequest.data.scope
         },
         signature: {
