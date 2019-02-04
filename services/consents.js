@@ -6,7 +6,6 @@ import { getAccount } from './storage'
 import { Base64 } from 'js-base64'
 
 export async function get (id) {
-  console.log('consentId', id)
   const account = await getAccount()
   const url = `${Config.OPERATOR_URL}/consents/requests/${encodeURIComponent(id)}?accountId=${account.id}`
 
