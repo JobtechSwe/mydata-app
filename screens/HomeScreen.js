@@ -36,11 +36,7 @@ export default class HomeScreen extends Screen {
   }
 
   componentDidMount() {
-    if (Platform.OS === 'android') {
-      Linking.getInitialURL().then(url => this.navigate(url))
-    } else {
-      Linking.addEventListener('url', this.handleOpenURL);
-    }
+    Linking.addEventListener('url', this.handleOpenURL);
   }
   componentWillUnmount() {
     Linking.removeEventListener('url', this.handleOpenURL)
@@ -73,7 +69,7 @@ export default class HomeScreen extends Screen {
   manageConsentsRequest = () => {
     this.props.navigation.navigate('ManageConsentsRequest')
   }
-  
+
   clearAccount = async () => {
     Alert.alert('Clear account', 'Are you sure you want to clear your account? This is a REALLY bad idea!', [
       { text: 'Cancel', onPress: () => {}, style: 'cancel' },
@@ -101,7 +97,7 @@ export default class HomeScreen extends Screen {
       <StyledView>
         <WelcomeText>Hello {this.state.account?.firstName} {this.state.account?.lastName}!</WelcomeText>
         <Button title="Edit Account" onPress={this.editAccount}>Edit account</Button>
-        <Button title="Manage Consents Request" onPress={this.manageConsentsRequest}>Manage Consents Request</Button>       
+        <Button title="Manage Consents Request" onPress={this.manageConsentsRequest}>Manage Consents Request</Button>
         <Button title="Clear Account" onPress={this.clearAccount}>Clear account</Button>
         <ScrollView>
           <JSONTree data={this.state.account || {}} />
