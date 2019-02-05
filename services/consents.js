@@ -19,7 +19,7 @@ export async function get (id) {
   const { data: { data, signature, client } } = response
 
   let signingKey
-  const jwksUri = `http://${data.clientId}${client.jwksUrl}`
+  const jwksUri = `${data.clientId}${client.jwksUrl}`
   try {
     const jwksClient = new JwksClient({ jwksUri })
     signingKey = await jwksClient.getSigningKey('client_key')
@@ -51,7 +51,7 @@ export async function approve ({ data, client }) {
   let payload
   try {
     const account = await getAccount()
-    const jwksUri = `http://${data.clientId}${client.jwksUrl}`
+    const jwksUri = `${data.clientId}${client.jwksUrl}`
     const jwksClient = new JwksClient({ jwksUri })
     const encryptionKey = await jwksClient.getEncryptionKey(data.kid)
 
