@@ -1,6 +1,6 @@
 import Config from 'react-native-config'
 import axios from 'axios'
-import JwksClient from './JwksClient'
+import { getKey } from './jwks'
 import { sign, verify } from './crypto'
 import { getAccount } from './storage'
 import { Base64 } from 'js-base64'
@@ -21,8 +21,7 @@ export async function get (id) {
   let signingKey
   const jwksUri = `${data.clientId}${client.jwksUrl}`
   try {
-    const jwksClient = new JwksClient({ jwksUri })
-    signingKey = await jwksClient.getSigningKey('client_key')
+    signingKey = await getKey(signature.kid)
   } catch (error) {
     console.error('GET', jwksUri, error)
     throw error
@@ -46,14 +45,12 @@ export async function get (id) {
   }
 }
 
-export async function approve ({ data, client }) {
+export async function approve ({ data }) {
   const url = `${Config.OPERATOR_URL}/consents`
   let payload
   try {
     const account = await getAccount()
-    const jwksUri = `${data.clientId}${client.jwksUrl}`
-    const jwksClient = new JwksClient({ jwksUri })
-    const encryptionKey = await jwksClient.getEncryptionKey(data.kid)
+    const encryptionKey = await getKey(data.kid)
 
     const consent = {
       accountId: account.id,
